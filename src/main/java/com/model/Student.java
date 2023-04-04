@@ -2,28 +2,32 @@ package com.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@AllArgsConstructor
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Student {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String rollNumber;
+	private Integer rollnumber;
 
 	@Column
-	private String firstName;
+	private String firstname;
 
 	@Column
-	private String lastName;
+	private String lastname;
 
 	@Column
 	private String address;
 
+	Student(String firstname, String lastname, String address) {
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.address = address;
+	}
 }

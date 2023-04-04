@@ -5,12 +5,14 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ResourceNotFoundException;
 import com.dto.StudentDto;
 import com.model.Student;
 import com.repository.StudentRepository;
 
+@Service
 public class StudentService {
 
 	@Autowired
@@ -20,7 +22,7 @@ public class StudentService {
 	ModelMapper modelMapper;
 
 	public List<StudentDto> getAllStudents() {
-		List<Student> students = studentRepository.findAll();
+		List<Student> students = (List<Student>) studentRepository.findAll();
 		return students.stream().map(student -> modelMapper.map(student, StudentDto.class))
 				.collect(Collectors.toList());
 	}
@@ -28,26 +30,21 @@ public class StudentService {
 	public StudentDto findById(Integer id) {
 		Student student = studentRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
-		return modelMapper.map(student, StudentDto.class);
+		StudentDto dto = modelMapper.map(student, StudentDto.class);
+		return dto;
 	}
 
-	public StudentDto createStudent(StudentDto studentDTO) {
+	public void createStudent(StudentDto studentDTO) {
 		Student student = modelMapper.map(studentDTO, Student.class);
-		Student savedStudent = studentRepository.save(student);
-		return modelMapper.map(savedStudent, StudentDto.class);
+		studentRepository.save(student);
 	}
 
-	public StudentDto updateStudent(Integer id, StudentDto studentDto) {
-		Student student = studentRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
-		student.setFirstName(studentDto.getFirstName());
-		student.setLastName(studentDto.getLastName());
-		student.setAddress(studentDto.getAddress());
-		Student updatedStudent = studentRepository.save(student);
-		return modelMapper.map(updatedStudent, StudentDto.class);
+	public void updateStudent(StudentDto studentDto) {
+		Student student = modelMapper.map(studentDto, Student.class);
+		studentRepository.save(student);
 	}
 
-	public void deleteStudent(Integer id) {
+	public void deletebyid(int id) {
 		studentRepository.deleteById(id);
 	}
 
