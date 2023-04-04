@@ -17,10 +17,5 @@ public class StudentDto {
 
 	private String address;
 
-	public StudentDto(String firstname, String lastname, String address) {
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.address = address;
-	}
 
 }

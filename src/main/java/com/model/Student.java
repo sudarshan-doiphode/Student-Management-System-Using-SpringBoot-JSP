@@ -24,10 +24,4 @@ public class Student {
 
 	@Column
 	private String address;
-
-	Student(String firstname, String lastname, String address) {
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.address = address;
-	}
 }
